@@ -42,10 +42,10 @@ if [ ! -f /certs/3270.pem ]; then
 
 fi
 
-echo "[*] Starting encrypted FTP listener on port 21"
-( socat -v openssl-listen:21,cert=/certs/ftp.pem,verify=0,reuseaddr,fork tcp4:127.0.0.1:2121 ) &
-echo "[*] Starting encrypted TN3270 listener on port 23"
-( socat -v openssl-listen:23,cert=/certs/3270.pem,verify=0,reuseaddr,fork tcp4:127.0.0.1:3270 ) &
+echo "[*] Starting encrypted FTP listener on port 3221"
+( socat -v openssl-listen:3221,cert=/certs/ftp.pem,verify=0,reuseaddr,fork tcp4:127.0.0.1:2121 ) &
+echo "[*] Starting encrypted TN3270 listener on port 3223"
+( socat -v openssl-listen:3223,cert=/certs/3270.pem,verify=0,reuseaddr,fork tcp4:127.0.0.1:3270 ) &
 
 cd MVSCE
 echo "[*] Starting Hercules"

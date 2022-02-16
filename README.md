@@ -39,8 +39,8 @@ Multiple ports are exposed:
 
 | Port | Description                            |
 |:----:|----------------------------------------|
-| 21   | Encrypted FTPD Server. See notes below |
-| 23   | Encrypted TN3270. See notes below      |
+| 3221 | Encrypted FTPD Server. See notes below |
+| 3223 | Encrypted TN3270. See notes below      |
 | 3270 | Unencrypted TN3270                     |
 | 3505 | ASCII JES2 listener                    |
 | 3506 | EBCDIC JES2 listener                   |
@@ -49,13 +49,13 @@ Multiple ports are exposed:
 
 **Notes:**
 
-Port `21` is an encrypted FTP server port. The FTPD server is not installed by
+Port `3221` is an encrypted FTP server port. The FTPD server is not installed by
 default. To install log on with TSO then run the command `RX MVP INSTALL FTPD`.
 Once installed use the hercules web console to start the FTP server with: `/S FTPD`.
 The TLS certificate used is stored in `/certs/ftp.pem` but this certificate is 
 **self signed**. You can replace if with your own cert.
 
-Port `23` is an encrypted 3270 server. The TLS certificate used is stored in
+Port `3223` is an encrypted 3270 server. The TLS certificate used is stored in
 `/certs/3270.pem` but this certificate is **self signed**. You can replace if
 with your own cert using the same file name.
 
@@ -86,8 +86,8 @@ docker run -d \
   --name=mvsce \
   -e HUSER=docker \
   -e HPASS=docker \
-  -p 2121:21 \
-  -p 2323:23 \
+  -p 2121:3221 \
+  -p 2323:3223 \
   -p 3270:3270 \
   -p 3505:3505 \
   -p 3506:3506 \
@@ -115,8 +115,8 @@ port `80` from inside the container to be accessible from the host's IP on port
 |:-----------------:|--------------------------------------|
 | `-e HUSER=docker` | Hercules HTTP auth user              |
 | `-e HPASS=docker` | Hercules HTTP auth password          |
-| `-p 21`           | TLS FTP port                         | 
-| `-p 23`           | TLC TN3270 Port                      |
+| `-p 3221`           | TLS FTP port                         | 
+| `-p 3223`           | TLC TN3270 Port                      |
 | `-p 3270`         | Unencrypted 3270 port                |
 | `-p 3505`         | ASCII JES2 listener port             |
 | `-p 3506`         | EBCDIC JES2 listener port            |
