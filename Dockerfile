@@ -12,15 +12,9 @@ RUN until ./sysgen.py --timeout 500 --version ${RELEASE_VERSION}; do echo "Faile
 
 ## Now build the 
 FROM mainframed767/hercules:4.4.1.10647-SDL
-COPY --from=sysgen /sysgen/MVSCE /home/docker/MVSCE
-COPY mvs.sh /home/docker
-RUN apt-get update && apt-get -yq install --no-install-recommends socat && apt-get clean && \
-    useradd -rm -s /bin/bash -u 1001 docker && \
-    chmod +x -R /home/docker/mvs.sh && chown -R docker:docker /home/docker && \
-    mkdir /config /dasd /printers /punchcards /logs /certs && \
-    chown -R docker:docker /config /dasd /printers /punchcards /logs /certs
-WORKDIR /home/docker
-USER docker
+COPY --from=sysgen /sysgen/MVSCE /MVSCE
+COPY mvs.sh /
+RUN apt-get update && apt-get -yq install --no-install-recommends socat openssl python3 && apt-get clean && chmod +x /mvs.sh
 VOLUME ["/config","/dasd","/printers","/punchcards","/logs", "/certs"]
 EXPOSE 3221 3223 3270 3505 3506 8888
 ENTRYPOINT ["./mvs.sh"]
