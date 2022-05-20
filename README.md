@@ -132,7 +132,5 @@ port `80` from inside the container to be accessible from the host's IP on port
 
 To build a new docker image do the following:
 
-1) Remove previous MVSCE releases: `rm MVSCE.release.v*.tar`
-2) Download current release from https://github.com/MVS-sysgen/sysgen/releases/ and place it in this folder
-3) Run `docker build --tag "mainframed767/mvsce:latest" .` to build the container
-4) Push to docker hub
+* Run `docker build --tag "mainframed767/mvsce:<version>" .` to build the container, replace <version> with a version
+* Push to docker hub
