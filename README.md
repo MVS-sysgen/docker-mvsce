@@ -132,5 +132,5 @@ port `80` from inside the container to be accessible from the host's IP on port
 
 To build a new docker image do the following:
 
-* Run `docker build --tag "mainframed767/mvsce:<version>" .` to build the container, replace <version> with a version
+* Run `docker build --build-arg RELEASE_VERSION=<V#R#M#> --tag "mainframed767/mvsce:<version>" .` to build the container, replace <version> and <V#R#M#> with a version
 * Push to docker hub
