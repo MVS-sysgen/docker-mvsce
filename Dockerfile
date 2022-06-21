@@ -14,7 +14,7 @@ RUN until ./sysgen.py --timeout 500 --version ${RELEASE_VERSION}; do echo "Faile
 FROM mainframed767/hercules:4.4.1.10647-SDL
 COPY --from=sysgen /sysgen/MVSCE /MVSCE
 COPY mvs.sh /
-RUN apt-get update && apt-get -yq install --no-install-recommends socat openssl python3 && apt-get clean && chmod +x /mvs.sh
+RUN apt-get update && apt-get -yq install --no-install-recommends socat openssl python3 netbase && apt-get clean && chmod +x /mvs.sh
 VOLUME ["/config","/dasd","/printers","/punchcards","/logs", "/certs"]
 EXPOSE 3221 3223 3270 3505 3506 8888
 ENTRYPOINT ["./mvs.sh"]
