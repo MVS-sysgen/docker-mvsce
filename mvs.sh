@@ -15,6 +15,10 @@ if [ ! -f /config/local.cnf ]; then
     sed -i 's_mvslog.txt_/logs/mvslog.txt_g' /config/local.cnf
     sed -i 's_localhost_0.0.0.0_g' /config/local.cnf
     sed -i 's_localhost_0.0.0.0_g' /config/local.cnf
+    sed -i 's_conf/local/_/config/local/_g' /config/local.cnf
+    echo "" >> /config/local.cnf
+    echo "#################################" >> /config/local.cnf
+    echo "# Adding HTTP server for Docker" >> /config/local.cnf
     echo 'HTTP   PORT 8888 AUTH ${HUSER:=hercules} ${HPASS:=hercules}' >> /config/local.cnf
     echo "HTTP   START" >> /config/local.cnf
 fi
@@ -36,7 +40,7 @@ for conf in MVSCE/conf/local/*; do
             cp "$conf" "/config/local/$(basename $conf)"
             sed 's_conf/local/_/config/local/_g' -i "/config/local/$(basename $conf)"
             # check to make sure the config exists in custom.cnf
-            if $(grep -L "/config/local/$(basename $conf)" /config/local/custom.cnf ; then
+            if $(grep -L "/config/local/$(basename $conf)" /config/local/custom.cnf) ; then
                 # if not then we add it   
                 echo "INCLUDE /config/local/$(basename $conf)" >> /config/local/custom.cnf
             fi
@@ -75,9 +79,9 @@ if [ ! -f /certs/3270.pem ]; then
 fi
 
 echo "[*] Starting encrypted FTP listener on port 3221"
-( socat -v openssl-listen:3221,cert=/certs/ftp.pem,verify=0,reuseaddr,fork tcp4:127.0.0.1:2121 ) &
+( socat openssl-listen:3221,cert=/certs/ftp.pem,verify=0,reuseaddr,fork tcp4:127.0.0.1:2121 ) &
 echo "[*] Starting encrypted TN3270 listener on port 3223"
-( socat -v openssl-listen:3223,cert=/certs/3270.pem,verify=0,reuseaddr,fork tcp4:127.0.0.1:3270 ) &
+( socat openssl-listen:3223,cert=/certs/3270.pem,verify=0,reuseaddr,fork tcp4:127.0.0.1:3270 ) &
 
 cd MVSCE
 echo "[*] Starting Hercules"
