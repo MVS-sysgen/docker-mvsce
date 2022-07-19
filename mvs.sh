@@ -3,6 +3,10 @@
 # to the /config and /dasd volume if they don't already exist
 # Then it will boot MVS/CE
 
+# Does the hercules config file exist?
+# If not, copy the config from MVS/CE
+# and replace the folder location with
+# volume names
 if [ ! -f /config/local.cnf ]; then
     echo "[*] /config/local.cnf does not exist... generating"
     sed 's_DASD/_/dasd/_g' MVSCE/conf/local.cnf > /config/local.cnf
@@ -10,9 +14,37 @@ if [ ! -f /config/local.cnf ]; then
     sed -i 's_printers/_/printers/_g' /config/local.cnf
     sed -i 's_mvslog.txt_/logs/mvslog.txt_g' /config/local.cnf
     sed -i 's_localhost_0.0.0.0_g' /config/local.cnf
+    sed -i 's_localhost_0.0.0.0_g' /config/local.cnf
     echo 'HTTP   PORT 8888 AUTH ${HUSER:=hercules} ${HPASS:=hercules}' >> /config/local.cnf
     echo "HTTP   START" >> /config/local.cnf
 fi
+
+if [ ! -f /config/local/custom.cnf ]; then
+    echo "[*] /config/local/custom.cnf does not exist... generating"
+    mkdir -p /config/local/
+    sed 's_conf/local/_/config/local/_g' MVSCE/conf/local/custom.cnf > /config/local/custom.cnf
+fi
+
+for conf in MVSCE/conf/local/*; do 
+    if  cmp -s "$conf" "/config/local/$(basename $conf)" ; then 
+        echo "[*] /config/local/$(basename $conf) no changes"
+    else 
+        # Check which file is newer
+        if [ "$conf" -nt "/config/local/$(basename $conf)" ]; then
+            # backup the previous config if it exists
+            cp "/config/local/$(basename $conf)" "/config/local/$(basename $conf).bak" 2>/dev/null
+            cp "$conf" "/config/local/$(basename $conf)"
+            sed 's_conf/local/_/config/local/_g' -i "/config/local/$(basename $conf)"
+            # check to make sure the config exists in custom.cnf
+            if $(grep -L "/config/local/$(basename $conf)" /config/local/custom.cnf ; then
+                # if not then we add it   
+                echo "INCLUDE /config/local/$(basename $conf)" >> /config/local/custom.cnf
+            fi
+        fi
+    fi
+done 
+
+
 
 for disk in MVSCE/DASD/*; do
     if [ ! -f /dasd/$(basename $disk) ]; then
