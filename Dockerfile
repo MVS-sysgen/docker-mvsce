@@ -12,7 +12,8 @@ RUN until ./sysgen.py --timeout 500 --version ${RELEASE_VERSION} --CONTINUE; do 
 
 ## Now build the 
 FROM mainframed767/hercules:4.4.1.10647-SDL
-COPY --from=sysgen /sysgen/MVSCE /MVSCE
+RUN rm -rf /MVSCE
+COPY --from=sysgen /MVSCE /MVSCE
 COPY mvs.sh /
 RUN apt-get update && apt-get -yq install --no-install-recommends socat ca-certificates openssl python3 netbase git && apt-get clean && chmod +x /mvs.sh
 VOLUME ["/config","/dasd","/printers","/punchcards","/logs", "/certs"]
