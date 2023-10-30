@@ -10,7 +10,7 @@ RUN git clone https://github.com/MVS-sysgen/sysgen.git
 ARG RELEASE_VERSION=''
 WORKDIR /sysgen
 # sometimes sysgen fails ar random points, run until it build successfully
-RUN until ./sysgen.py --timeout 1500 --version ${RELEASE_VERSION} --CONTINUE; do echo "Failed, rerunning"; done
+RUN until ./sysgen.py --timeout 3600 --version ${RELEASE_VERSION} --CONTINUE; do echo "Failed, rerunning"; done
 
 ## Now build the 
 FROM mainframed767/hercules:4.7.0
