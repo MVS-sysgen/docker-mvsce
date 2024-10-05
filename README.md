@@ -116,7 +116,7 @@ port `80` from inside the container to be accessible from the host's IP on port
 | `-e HUSER=docker` | Hercules HTTP auth user              |
 | `-e HPASS=docker` | Hercules HTTP auth password          |
 | `-p 3221`         | TLS FTP port                         | 
-| `-p 3223`         | TLC TN3270 Port                      |
+| `-p 3223`         | TLS TN3270 Port                      |
 | `-p 3270`         | Unencrypted 3270 port                |
 | `-p 3505`         | ASCII JES2 listener port             |
 | `-p 3506`         | EBCDIC JES2 listener port            |
