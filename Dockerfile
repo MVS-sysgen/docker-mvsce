@@ -1,13 +1,13 @@
 # Build MVSCE
 # If this is a point release use docker --build-arg RELEASE_VERSION=V#R#M#
-FROM mainframed767/hercules:4.7.0 as sysgen
+FROM mainframed767/hercules:4.7.0 AS sysgen
 USER root
 RUN apt-get update && \
     apt-get -yq install --no-install-recommends git python3 apt-transport-https ca-certificates && \
     apt-get clean && update-ca-certificates
 WORKDIR /
 RUN git clone https://github.com/MVS-sysgen/sysgen.git
-ARG RELEASE_VERSION=''
+ARG RELEASE_VERSION='git'
 WORKDIR /sysgen
 # sometimes sysgen fails ar random points, run until it build successfully
 RUN until ./sysgen.py --timeout 3600 --version ${RELEASE_VERSION} --CONTINUE; do echo "Failed, rerunning"; done
