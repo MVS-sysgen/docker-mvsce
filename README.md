@@ -30,7 +30,7 @@ MVS/CE makes use of a few folders, for this image these have been converted to v
 All of these volumes are optional. When this docker image is provisioned it
 will check for the presence of `local.cnf` in `/config`, `ftp.pem` and `3270.pem`
 in `/certs` and all the DASD images that come with MVS/CE in `/dasd`. If any of
-those files are missing they will be copied from the defauls. Therefore if you
+those files are missing they will be copied from the defaults. Therefore if you
 mess up your certs, config or any of the dasd files, simply deleting them or
 renaming them will cause them to be rebuilt the next time this container
 is provisioned/reset.
@@ -115,8 +115,8 @@ port `80` from inside the container to be accessible from the host's IP on port
 |:-----------------:|--------------------------------------|
 | `-e HUSER=docker` | Hercules HTTP auth user              |
 | `-e HPASS=docker` | Hercules HTTP auth password          |
-| `-p 3221`           | TLS FTP port                         | 
-| `-p 3223`           | TLC TN3270 Port                      |
+| `-p 3221`         | TLS FTP port                         | 
+| `-p 3223`         | TLS TN3270 Port                      |
 | `-p 3270`         | Unencrypted 3270 port                |
 | `-p 3505`         | ASCII JES2 listener port             |
 | `-p 3506`         | EBCDIC JES2 listener port            |
