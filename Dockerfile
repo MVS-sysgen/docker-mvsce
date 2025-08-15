@@ -1,6 +1,6 @@
 # Build MVSCE
 # If this is a point release use docker --build-arg RELEASE_VERSION=V#R#M#
-FROM mainframed767/hercules:4.7.0 AS sysgen
+FROM mainframed767/hercules:latest AS sysgen
 USER root
 RUN apt-get update && \
     apt-get -yq install --no-install-recommends git python3 apt-transport-https ca-certificates && \
@@ -13,7 +13,7 @@ WORKDIR /sysgen
 RUN until ./sysgen.py --timeout 3600 --version ${RELEASE_VERSION} --CONTINUE; do echo "Failed, rerunning"; done
 
 ## Now build the 
-FROM mainframed767/hercules:4.7.0
+FROM mainframed767/hercules:latest
 WORKDIR /
 USER root
 RUN rm -rf /MVSCE
