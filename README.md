@@ -42,6 +42,7 @@ Multiple ports are exposed:
 | 3221 | Encrypted FTPD Server. See notes below |
 | 3223 | Encrypted TN3270. See notes below      |
 | 3270 | Unencrypted TN3270                     |
+| 3271 | TN3270.js Web socket
 | 3505 | ASCII JES2 listener                    |
 | 3506 | EBCDIC JES2 listener                   |
 | 8888 | Hercules web server. See notes below   |
@@ -89,6 +90,7 @@ docker run -d \
   -p 2121:3221 \
   -p 2323:3223 \
   -p 3270:3270 \
+  -p 3271:3271 \
   -p 3505:3505 \
   -p 3506:3506 \
   -p 8888:8888 \
